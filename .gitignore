@@ -1,0 +1,7 @@
+*.d
+*.o
+Doc
+THEORY
+src/sysroot/
+src/kernel/.vscode/
+*.bin

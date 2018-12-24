@@ -1,0 +1,11 @@
+In order:
+- How OS handle memory management
+- Implement malloc and free (obtain Memory Map)
+- Memory paging
+- Higher Half kernel
+- Implement Segments
+- Implement Interrupts
+- How OS handle many hardware events
+- How OS handle Networking
+- How OS work in bare bones in all of their aspects.
+- Have a working and reliable interrupt handling
