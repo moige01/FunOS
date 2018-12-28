@@ -1,3 +1,4 @@
 * Get VGA Text Buffer - 12/19/2018
 * Add '\n' and scroll ball handling in VGA text buffer - 12/20/2018
 * Add global constructors - 12/24/2018
+* Pass Multibot information table - 12/28/2018
