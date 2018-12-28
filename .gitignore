@@ -3,5 +3,7 @@
 Doc
 THEORY
 src/sysroot/
-src/kernel/.vscode/
+.vscode/
+*.code-workspace
 *.bin
+cross-compile/

@@ -2,7 +2,7 @@ SYSTEM_HEADER_PROJECTS="kernel"
 PROJECTS="kernel"
  
 export MAKE=${MAKE:-make}
-# export HOST=${HOST:-$(./default-host.sh)}
+export HOST=i686-elf
 
 export AS=${HOST}-as
 export CC=${HOST}-gcc
@@ -14,5 +14,5 @@ export INCLUDEDIR=$PREFIX/include
  
 # Configure the cross-compiler to use the desired system root.
 export SYSROOT="$(pwd)/sysroot"
-export CC="$CC --sysroot=$SYSROOT"
+export CC="$CC --sysroot=$SYSROOT -isystem=$INCLUDEDIR"
  

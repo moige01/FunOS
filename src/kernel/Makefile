@@ -2,11 +2,9 @@
 ARCHDIR=arch/i386
 KERNELDIR=kernel
 
-KCFLAGS?=-std=gnu99 -ffreestanding -O2 -m32 -mtune=i686 -march=i686 -Wall -Wextra -D__is_kernel
+KCFLAGS?=-std=gnu11 -ffreestanding -O2 -Wall -Wextra
 KCPPFLAGS?=
 KLDFLAGS?=-nostdlib -lgcc
-KLIBS?=
-ASFLAGS:=--32 -mtune=i686 -march=i686
 
 DESTDIR?=
 PREFIX=/usr
@@ -17,17 +15,14 @@ include $(ARCHDIR)/make.config
 
 CFLAGS:=$(KCFLAGS) $(KERNEL_ARCH_CFLAGS)
 LDFLAGS:=$(KLDFLAGS) $(KERNEL_ARCH_LDFLAGS)
-LIBS:=$(KLIBS) $(KERNEL_ARCH_LIBS)
+CPPFLAGS:=$(KCPPFLAGS) $(KERNEL_ARCH_CPPFLAGS)
 
-CRTI_OBJ=$(ARCHDIR)/crti.o
 CRTBEGIN_OBJ:=$(shell $(CC) $(CFLAGS) -print-file-name=crtbegin.o)
-CRTEND_BOJ:=$(shell $(CC) $(CFLAGS) -print-file-name=crtend.o)
-CRTN_OBJ=$(ARCHDIR)/crtn.o
+CRTEND_OBJ:=$(shell $(CC) $(CFLAGS) -print-file-name=crtend.o)
 
 KERNEL_OBJS=\
-$(ARCHDIR)/boot.o \
+$(KERNEL_ARCH_OBJS) \
 $(KERNELDIR)/kernel.o \
-$(ARCHDIR)/tty.o \
 
 LINK_LIST=\
 $(CRTI_OBJ) \
@@ -54,7 +49,7 @@ funos.bin: $(OBJS) $(ARCHDIR)/linker.ld
 	$(CC) -MD -c $< -o $@ $(CFLAGS)
 
 .S.o:
-	$(AS) $(ASFLAGS) $< -o $@
+	$(AS) $< -o $@
 
 clean:
 	rm -f funos.bin

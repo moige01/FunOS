@@ -75,8 +75,9 @@ _start:
 	C++ features such as global constructors and exceptions will require
 	runtime support to work as well.
 	*/
-	
-	call _init
+
+	# FIXME: Resolve problem with _init and stack
+	# call _init
 
 	/*
 	Enter the high-level kernel. The ABI requires the stack is 16-byte
@@ -86,6 +87,19 @@ _start:
 	stack since (pushed 0 bytes so far) and the alignment is thus
 	preserved and the call is well defined.
 	*/
+
+	/* Reset EFLAGS */
+	pushl $0
+	popf
+
+	/*
+	* Push the pointer to the Multiboot information structure and push
+	* the magic value
+	*/
+	pushl %ebx
+	pushl %eax
+	
+	/* Enter to main function */
 	call Kernel_Main
 
 	/*
