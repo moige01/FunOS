@@ -13,6 +13,10 @@ CFLAGS:=$(CFLAGS) -ffreestanding -Wall -Wextra
 LIBK_CFLAGS:=$(CFLAGS)
  
 FREEOBJS=\
+stdio/printf.o \
+stdio/putchar.o \
+stdio/puts.o \
+stdlib/abort.o \
 string/memcmp.o \
 string/memcpy.o \
 string/memmove.o \

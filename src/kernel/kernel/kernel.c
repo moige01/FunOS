@@ -1,6 +1,7 @@
 #include <kernel/tty.h>
 #include <boot/boot.h>
 #include <boot/multiboot.h>
+#include <stdio.h>
 
 void Kernel_Main(unsigned long magic, unsigned long addr)
 {
@@ -11,14 +12,15 @@ void Kernel_Main(unsigned long magic, unsigned long addr)
 	// Plan to implement SMAP_DetectMemory() call in boot.S
 	if (magic != MULTIBOOT_BOOTLOADER_MAGIC)
 	{
-		TTY_WriteString("Invalid magic number");
+		printf("Invalid magic number\n");
 		return;
 	}
 	
-	TTY_WriteString("Hello, Kernel World!\n");
-	TTY_WriteString("Detecting SMAP...\n");
+	printf("Hello, Kernel World!\n");
+	printf("Detecting SMAP...\n");
 	multiboot_info_t *mbi;
 	mbi = (multiboot_info_t *) addr;
+	printf("mem_low -> %c\n", mbi->mem_lower);
 
-	TTY_WriteString("Now, keep reading and implement more!\n");
+	printf("Now, keep reading and implement more!\n");
 }

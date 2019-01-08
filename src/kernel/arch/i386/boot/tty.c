@@ -74,7 +74,7 @@ static void TTY_PutChar(char c)
 		TTY_Scroll();
 }
 
-static void TTY_Write(const char* data, size_t size)
+void TTY_Write(const char* data, size_t size)
 {
 	for (size_t i = 0; i < size; i++)
 		TTY_PutChar(data[i]);
