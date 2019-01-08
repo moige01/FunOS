@@ -48,6 +48,7 @@ int printf(const char* restrict format, ...)
 
 		if (*format == 'c') {
 			format++;
+			// char decay into int on va_arg
 			char c = (char) va_arg(parameters, int);
 			if (!maxrem) goto overflow;
 			
@@ -86,5 +87,5 @@ int printf(const char* restrict format, ...)
 overflow:
 	errno = EOVERFLOW;
 	va_end(parameters);
-	return-1;
+	return -1;
 }
