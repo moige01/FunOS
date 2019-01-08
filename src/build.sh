@@ -3,5 +3,6 @@ set -e
 . ./headers.sh
 
 for PROJECT in $PROJECTS; do
-  (cd $PROJECT && $MAKE all)
+  (cd $PROJECT && DESTDIR="$SYSROOT" $MAKE all)
 done
+

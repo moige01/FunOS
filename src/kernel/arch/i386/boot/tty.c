@@ -3,6 +3,7 @@
 #include <stdint.h>
 
 #include <kernel/tty.h>
+#include <string.h>
 
 // See vga.h to view documentation about colors and charsets
 #include "vga.h"
@@ -15,15 +16,6 @@ size_t tty_Row;
 size_t tty_Column;
 uint8_t tty_Color;
 uint16_t* tty_Buffer;
-
-// TODO: Define "StrLen" in libc
-size_t StrLen(const char* str)
-{
-	size_t len = 0;
-	while (str[len])
-		len++;
-	return len;
-}
 
 void TTY_Init(void)
 {
@@ -90,5 +82,5 @@ static void TTY_Write(const char* data, size_t size)
 
 void TTY_WriteString(const char* data)
 {
-	TTY_Write(data, StrLen(data));
+	TTY_Write(data, strlen(data));
 }

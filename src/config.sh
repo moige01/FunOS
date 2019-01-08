@@ -1,9 +1,10 @@
-SYSTEM_HEADER_PROJECTS="kernel"
-PROJECTS="kernel"
+SYSTEM_HEADER_PROJECTS="libc kernel"
+PROJECTS="libc kernel"
  
 export MAKE=${MAKE:-make}
 export HOST=i686-elf
 
+export AR=${HOST}-ar
 export AS=${HOST}-as
 export CC=${HOST}-gcc
  

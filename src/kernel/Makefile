@@ -4,7 +4,7 @@ KERNELDIR=kernel
 
 KCFLAGS?=-std=gnu11 -ffreestanding -O2 -Wall -Wextra
 KCPPFLAGS?=
-KLDFLAGS?=-nostdlib -lgcc
+KLDFLAGS?=-nostdlib -lk -lgcc
 
 DESTDIR?=
 PREFIX=/usr
@@ -42,7 +42,7 @@ $(CRTN_OBJ) \
 all: funos.bin
 
 funos.bin: $(OBJS) $(ARCHDIR)/linker.ld
-	$(CC) -T $(ARCHDIR)/linker.ld -o $@ $(CFLAGS) $(LDFLAGS) $(LINK_LIST)
+	$(CC) -T $(ARCHDIR)/linker.ld -o $@ $(CFLAGS) $(LINK_LIST) $(LDFLAGS) 
 	grub-file --is-x86-multiboot $@
 
 .c.o:
