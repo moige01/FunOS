@@ -4,6 +4,10 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <funos/kernel.h>
+
+#define BUFF_MAX 512
 
 static bool print(const char* data, size_t length)
 {
@@ -23,6 +27,8 @@ int printf(const char* restrict format, ...)
 	va_start(parameters, format);
 
 	int written = 0;
+	char buffer[BUFF_MAX];
+	memset(buffer, 0, BUFF_MAX);
 
 	while (*format != '\0') {
 		size_t maxrem = INT_MAX - written;
@@ -66,6 +72,34 @@ int printf(const char* restrict format, ...)
 			if (!print(str, len))
 				return -1;
 
+			written += len;
+		} else if (*format == 'd' || *format == 'i') {
+			format++;
+			int num = va_arg(parameters, int);
+
+			itoa(num, buffer, 10, ARRAY_SIZE(buffer));
+			size_t len = strlen(buffer);
+
+			if (maxrem < len) goto overflow;
+
+			if (!printf(buffer, len))
+				return -1;
+
+			memset(buffer, 0, BUFF_MAX);
+			written += len;	
+		} else if (*format == 'x' || *format == 'X') {
+			format++;
+			int num = va_arg(parameters, int);
+
+			itoa(num, buffer, 16, ARRAY_SIZE(buffer));
+			size_t len = strlen(buffer);
+
+			if (maxrem < len) goto overflow;
+
+			if (!printf(buffer, len))
+				return -1;
+
+			memset(buffer, 0, BUFF_MAX);
 			written += len;
 		} else {
 			format = format_begun_at;

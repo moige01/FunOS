@@ -241,6 +241,19 @@ struct multiboot_mmap_entry
 } __attribute__((packed));
 typedef struct multiboot_mmap_entry multiboot_memory_map_t;
 
+/** USER DEFINED !!NO PART OF THE STANDARD!! **/
+struct multiboot_mmap_entry_32
+{
+	multiboot_uint32_t size;
+	multiboot_uint32_t addr_low;
+	multiboot_uint32_t addr_high;
+	multiboot_uint32_t len_low;
+	multiboot_uint32_t len_high;
+	multiboot_uint32_t type;
+} __attribute__((packed));
+typedef struct multiboot_mmap_entry_32 multiboot_memory_map32_t;
+/** END OF USER DEFINED **/
+
 struct multiboot_mod_list
 {
   /* the memory used goes from bytes 'mod_start' to 'mod_end-1' inclusive */

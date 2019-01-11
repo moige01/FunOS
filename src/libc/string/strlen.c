@@ -3,10 +3,10 @@
 
 size_t strlen(const char* str)
 {
-	size_t len = 0;
+	const char* sc;
 
-	while (str[len])
-		len++;
+	for (sc = str; *sc; ++sc)
+		;
 
-	return len;
+	return (sc - str);
 }
