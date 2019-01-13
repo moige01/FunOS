@@ -1,7 +1,6 @@
 *.d
 *.o
 Doc
-THEORY
 src/sysroot/
 .vscode/
 *.code-workspace

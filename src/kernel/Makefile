@@ -10,12 +10,18 @@ DESTDIR?=
 PREFIX=/usr
 INCLUDEDIR=$(PREFIX)/include
 LIBDIR?=$(PREFIX)/lib
+DEBUG?=
 
 include $(ARCHDIR)/make.config
 
 CFLAGS:=$(KCFLAGS) $(KERNEL_ARCH_CFLAGS)
 LDFLAGS:=$(KLDFLAGS) $(KERNEL_ARCH_LDFLAGS)
 CPPFLAGS:=$(KCPPFLAGS) $(KERNEL_ARCH_CPPFLAGS)
+DEBUGFLAGS?=
+
+ifeq ($(DEBUG), 1)
+	DEBUGFLAGS=-DDEBUG
+endif
 
 CRTBEGIN_OBJ:=$(shell $(CC) $(CFLAGS) -print-file-name=crtbegin.o)
 CRTEND_OBJ:=$(shell $(CC) $(CFLAGS) -print-file-name=crtend.o)
@@ -46,7 +52,7 @@ funos.bin: $(OBJS) $(ARCHDIR)/linker.ld
 	grub-file --is-x86-multiboot $@
 
 .c.o:
-	$(CC) -MD -c $< -o $@ $(CFLAGS)
+	$(CC) -MD -c $< -o $@ $(DEBUGFLAGS) $(CFLAGS)
 
 .S.o:
 	$(AS) $< -o $@

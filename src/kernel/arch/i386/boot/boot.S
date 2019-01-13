@@ -65,6 +65,21 @@ _start:
 	*/
 	mov $stack_top, %esp
 
+	/* Ensure stack is 16-biy aligned */
+	and $-16, %esp
+	
+	/* Reset EFLAGS */
+	pushl $0
+	popf/*
+
+	/*
+	* Push the pointer to the Multiboot information structure and push
+	* the magic value
+	*/
+
+	pushl %ebx
+	pushl %eax
+
 	/*
 	This is a good place to initialize crucial processor state before the
 	high-level kernel is entered. It's best to minimize the early
@@ -76,8 +91,9 @@ _start:
 	runtime support to work as well.
 	*/
 
-	# FIXME: Resolve problem with _init and stack
-	# call _init
+	call Kernel_Early
+
+	call _init
 
 	/*
 	Enter the high-level kernel. The ABI requires the stack is 16-byte
@@ -87,17 +103,6 @@ _start:
 	stack since (pushed 0 bytes so far) and the alignment is thus
 	preserved and the call is well defined.
 	*/
-
-	/* Reset EFLAGS */
-	pushl $0
-	popf
-
-	/*
-	* Push the pointer to the Multiboot information structure and push
-	* the magic value
-	*/
-	pushl %ebx
-	pushl %eax
 	
 	/* Enter to main function */
 	call Kernel_Main

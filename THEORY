@@ -1,0 +1,34 @@
+Boot Sequence
+=============
+* POST: This sequence checks al hardware components. Culminates in locating a bootable devices, such a Floppy disk, CD-ROM or a Hard Disk
+* MBR: BIOS check for a boot signature, AKA "magic number", this signature is in a boot sector (sector number 0) an it contains the byte sequence 0x55, 0xAA at byte offsets 510 and 511. It load into memory at 0x0000:0x7c00. On a hard drive, the MBR holds executable code at offset 0x0000 - 0x01bd, followed by table entries for the four primary partitions using 16 bytes per entry (0x01be - 0x01fd)
+
+VGA Buffer
+==========
+VGA Buffer are allocated in 0xB8000. Each character is represented as 16-bit (2-bytes) word accessible by t he CPU in a single operation. The lower byte is the actual code point for the current character set, and the higher byte is a bit field used to select various attributes such a color, blinking, character set, and so forth.
+
+Global Constructors
+===================
+Global constructors are functions invoked before the main function, which is why the program entry point is normally a function called _start. This functions has the responsibility of parsing the command line arguments, initializing the standard library (memory alloc, signals, etc.) running global constructors and finally exit(main(argc, argv)), i. e. there are functions that are handled before the entry point (main() function) of your program.
+
+Multiboot Standard
+==================
+
+Is a open standard describing how a boot loader can load a x86 operating system kernel. This specification allows any compliant boot loader implementation to boot any compliant operating system kernel. This standard provide tools to ease early kernel routines, like get memory map through the data structures declared onto multiboot.h header.
+
+Memory Map
+==========
+
+Is a structure of data that indicates how memory is laid out. Memory maps can have a different meaning in different parts of the operating system. In the boot process, a memory map is passed on from the firmware in order to instruct an operating system kernel about memory layout. Multiboot standard let us to get this data structure through assembler parameters and pass them to kernel main routine.
+
+Memory Management Unit (MMU)
+============================
+
+Is a computer hardware unit having all memory references passed through itself, primarily performing the translation of virtual memory address to physical addresses. MMUs typically divide the virtual address space into pages tables (containing one page table entry per page), each having a size which is a power of 2, usually a few kilobytes, but they may be much larger. The bottom bits of the address are left unchanged. The upper address bits are the virtual page numbers.
+
+When a virtual address need to be translated into a physical address, the translation lookaside buffer (TLB) is searched first. If a match if found (a TLB hit), the physical address is return and memory access can continue. However, if the is no match (called TLB miss), the MMU, or the OS TLB miss handler, will typically look up the address mapping in the page table to see whether a mapping exist (a page walk). If one exist, is written back to the TLB. This subsequent translation will find a TLB hit, and the memory access will continue. If there's not available RAM to assign, virtual address will be mapped to hard disk, the write into TLB.
+
+CPU will, as long you enable its MMU, always use the TLB before sending an address out onto the address bus. That is, once you enable the MMU, until you take it off, you have essentially "trapped" yourself in a virtual address space. The TLB is the MMU and the MMU is the TLB.
+
+Page Frame Allocation
+=====================

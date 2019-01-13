@@ -2,7 +2,9 @@
 set -e
 . ./headers.sh
 
+DEBUG=${1:-0}
+
 for PROJECT in $PROJECTS; do
-  (cd $PROJECT && DESTDIR="$SYSROOT" $MAKE all)
+  (cd $PROJECT && DEBUG="$DEBUG" DESTDIR="$SYSROOT" $MAKE all)
 done
 

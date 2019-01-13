@@ -3,3 +3,4 @@
 * Add global constructors - 12/24/2018
 * Pass Multibot information table - 12/28/2018
 * Add libc stuff (string) and removed tty.c TODO - 01/08/2019
+* Add memory map getter - 01/12/2019
